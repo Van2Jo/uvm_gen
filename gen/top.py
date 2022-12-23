@@ -10,7 +10,7 @@ class uvm_autogen():
 
 
     def build_dir(self):
-        os.chdir(self.out_dir)#change into the project dir
+        os.chdir(self.out_dir)  #change into the project dir
         if not path_exists("bin"):
             os.mkdir("bin")
         if not path_exists("cov"):

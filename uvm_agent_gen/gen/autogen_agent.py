@@ -12,29 +12,33 @@ class autogen_agent(object):
     def __init__(self):
         #self.module_name=''
         self.agent_name='pwr_ctrl'
-        self.out_dir="F:/script/uvm_gen_auto_beng/test/"
+        self.out_dir=''
         self.time = time.strftime("%Y-%m-%d", time.localtime())
-        self.user=''
+        self.user='beng.jiang'
         self.agent_list={}
-        self.template_dir='F:/script/uvm_gen_auto_beng/template'
+        self.template_dir='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template'
+        # self.agent_list.setdefault('agent_name',None)            #给字典添加键并设置默认值
+        # self.agent_list.setdefault('user_name','bengjiang')
+        # self.agent_list.setdefault('date','')
 
     def parser_agent_para(self):
-        self.agent_list{"agent_name"} = self.agent_name
-        self.agent_list{"user"}     = self.user
-        self.agent_list{"data"}     = self.time
+        self.agent_list['agent_name'] = self.agent_name
+        self.agent_list['user_name'] = self.user
+        self.agent_list['date'] = self.time
 
     def gen_agent_file(self):
-        agent_file = self.agent_name+"agent"
-        if not path_exists(self.agent_name+"agent"):
-            os.mkdir(self.agent_name+"agent")
+        agent_file = self.agent_name+"_agent\\"
+        current_file = os.getcwd()
+        #if not os.path.exists("agent"):
+            #os.mkdir("../agents/"+self.agent_name+"_agent")
 
-        self.out_dir = os.getcwd+"../"+agent_file+"/"
+        self.out_dir = current_file+"\..\\agents\\"+agent_file
         print("print out dir:%s" %self.out_dir)
 
 
     def gen_agent(self):
         file_name = self.agent_name+'_agent.sv'
-        template_lookup = TemplateLookup(directories='F:/script/uvm_gen_auto_beng/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
         print(template_lookup)
         template = Template("""<%include file="agent_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)    #attributes是一个字典用于获取变量
@@ -47,10 +51,11 @@ class autogen_agent(object):
             file.write(cleaned_up_output)
     def gen_agent_item(self):
         file_name = self.agent_name + '_item.sv'
-        template_lookup = TemplateLookup(directories='F:/script/uvm_gen_auto_beng/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
         template = Template("""<%include file="agent_item_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
+        print("out_file_path: %s" %out_file_path)
         try:
             file = open(out_file_path, 'w+', newline='')
         except:
@@ -60,7 +65,7 @@ class autogen_agent(object):
 
     def gen_agent_cfg(self):
         file_name = self.agent_name + '_cfg.sv'
-        template_lookup = TemplateLookup(directories='F:/script/uvm_gen_auto_beng/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
         template = Template("""<%include file="agent_cfg_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
@@ -73,10 +78,11 @@ class autogen_agent(object):
 
     def gen_sequencer(self):
         file_name = self.agent_name + '_sequencer.sv'
-        template_lookup = TemplateLookup(directories='F:/script/uvm_gen_auto_beng/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
         template = Template("""<%include file="agent_cfg_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
+        print("out_file_path: %s" % out_file_path)
         try:
             file = open(out_file_path, 'w+', newline='')
         except:
@@ -86,7 +92,7 @@ class autogen_agent(object):
 
     def gen_driver(self):
         file_name = self.agent_name + '_driver.sv'
-        template_lookup = TemplateLookup(directories='F:/script/uvm_gen_auto_beng/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
         template = Template("""<%include file="driver_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
@@ -99,7 +105,7 @@ class autogen_agent(object):
 
     def gen_monitor(self):
         file_name = self.agent_name + '_monitor.sv'
-        template_lookup = TemplateLookup(directories='F:/script/uvm_gen_auto_beng/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
         template = Template("""<%include file="monitor_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
@@ -112,7 +118,7 @@ class autogen_agent(object):
 
     def gen_interface(self):
         file_name = self.agent_name + '_interface.sv'
-        template_lookup = TemplateLookup(directories='F:/script/uvm_gen_auto_beng/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
         template = Template("""<%include file="interface_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
@@ -125,7 +131,7 @@ class autogen_agent(object):
 
     def gen_agent_pkg(self):
         file_name = self.agent_name + '_pkg.sv'
-        template_lookup = TemplateLookup(directories='F:/script/uvm_gen_auto_beng/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
         template = Template("""<%include file="agent_pkg_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
@@ -146,8 +152,11 @@ class autogen_agent(object):
         self.gen_agent_cfg()
         self.gen_driver()
         self.gen_monitor()
+        self.gen_agent_pkg()
+        self.gen_agent_item()
+        self.gen_agent()
 
-if __main__ == '__name__':
+if __name__ == '__main__':
     agent =autogen_agent()
     agent.run_flow()
 

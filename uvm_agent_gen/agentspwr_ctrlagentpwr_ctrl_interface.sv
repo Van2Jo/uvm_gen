@@ -1,16 +1,12 @@
-<%
-agent_name = attributes['agent_name']
-USER = attributes['user_name']
-DATE = attributes['date']
-%>
+
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
 //Copyright
-//Author: ${USER}
-//date: ${DATE}
-//Contents:${agent_name}_interface
+//Author: beng.jiang
+//date: 2022-12-23
+//Contents:pwr_ctrl_interface
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
 
-interface ${agent_name}_interface (input logic clk, input logic rst_n);
+interface pwr_ctrl_interface (input logic clk, input logic rst_n);
 
 
     clocking drv_cb @(posedge clk);
@@ -28,4 +24,4 @@ interface ${agent_name}_interface (input logic clk, input logic rst_n);
 // Add user logic here
 //e.g. assign initial assert
 // User logic ends
-endinterface
+endinterface 
