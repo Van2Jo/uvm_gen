@@ -19,11 +19,11 @@ class ${agent_name}_agent extends uvm_agent;
 	`uvm_component_utils(${agent_name}_agent)
 
 	//Config	//Interface
-	${agent_name}_agent_config agt_cfg;
-	virtual ${agent_name}_inf ${agent_name}_inf;
+	${agent_name}_agent_cfg agt_cfg;
+	virtual ${agent_name}_interface vif;
 	
 	//TLM 
-	uvm_analysis_port#(${agent_name}_req) mon_ap;
+	uvm_analysis_port#(${agent_name}_item) mon_ap;
 	
 	//Components
 	${agent_name}_sequencer sqr;
@@ -39,8 +39,7 @@ class ${agent_name}_agent extends uvm_agent;
 	extern virtual function void build_phase(uvm_phase phase);
 	extern virtual function void connect_phase(uvm_phase phase);
 	extern virtual task run_phase(uvm_phase phase);
-	
-	{{method}}
+
 	// Add user method here
 	// e.g. task function
 	// User method ends
@@ -49,7 +48,7 @@ endclass
 function void ${agent_name}_agent::build_phase(uvm_phase phase);
 	super.build_phase(phase);
 	`uvm_info(get_name(),"Build Phase is Called",UVM_LOW)
-	if(!uvm_config_db#(${agent_name}_agent_config)::get(this,"","agt_cfg",agt_cfg))
+	if(!uvm_config_db#(${agent_name}_agent_cfg)::get(this,"","agt_cfg",agt_cfg))
 	begin
 		`uvm_fatal(get_name(),"Failed Get ${agent_name} Agent Config")
 	end
@@ -72,12 +71,12 @@ endfunction
 function void ${agent_name}_agent::connect_phase(uvm_phase phase);
 	super.connect_phase(phase);
 	`uvm_info(get_name(),"Connect Phase is Called",UVM_LOW)
-	mon.${agent_name}_inf=${agent_name}_inf;
-	mon_ap=${agent_name}_mom.mon_ap;
+	mon.vif=vif;
+	mon_ap=mon.mon_ap;
 	if (agt_cfg.is_active==UVM_ACTIVE)
 	begin
-		drv.${agent_name}_inf=${agent_name}_inf;
-		drv.seq_item_port.connect(${agent_name}_sqr.seq_item_export);
+		drv.vif=vif;
+		drv.seq_item_port.connect(sqr.seq_item_export);
 	end
 	// Add user connect here
 	//e.g. TLM  interface connect
@@ -90,16 +89,16 @@ task ${agent_name}_agent::run_phase(uvm_phase phase);
 
     forever begin
         @(negedge mon.vif.rst_n);
-	    if(drv.is_active == 1)begin
+	    if(agt_cfg.is_active == 1)begin
 	        drv.handle_reset(phase);
 	    end
         if(sqr != null)begin
-            sqr.handle_reset(phase)
+            sqr.handle_reset(phase);
         end
-        @(posedge mon.vif.rst_n)
+        @(posedge mon.vif.rst_n);
 
 	// Add user logic here
-
+    end
 	// User logic ends
 endtask
 

@@ -25,7 +25,7 @@ class ${agent_name}_item extends uvm_sequence_item;
 	function new(string name="${agent_name}_item");
 		super.new(name);
 	endfunction
-	{{method}}
+
 	// Add user method here
 	//e.g. implement constarins
 	// User method ends	

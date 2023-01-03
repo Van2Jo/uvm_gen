@@ -15,11 +15,12 @@ agent_upper = attributes['agent_name'].upper()
 
 `ifndef ${agent_upper}_PKG__SV
 `define ${agent_upper}_PKG__SV
+`include "${agent_name}_interface.sv"
 package ${agent_name}_pkg;
 
     import uvm_pkg::*;
 
-    `include "${agent_name}_interface.sv"
+    `include "${agent_name}_item.sv"
     `include "${agent_name}_driver.sv"
     `include "${agent_name}_monitor.sv"
     `include "${agent_name}_sequencer.sv"

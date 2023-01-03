@@ -13,13 +13,12 @@ agent_upper = attributes['agent_name'].upper()
 `ifndef ${agent_upper}_DRIVER_SV
 `define ${agent_upper}_DRIVER_SV
 
-class ${agent_name}_driver extends uvm_driver ;
+class ${agent_name}_driver extends uvm_driver #(${agent_name}_item);
 
 	`uvm_component_utils(${agent_name}_driver)
 
 	//Config	//Interface
-	${agent_name}_driver_cfg drv_cfg;
-	virtual ${agent_name}_infterface vif;
+	virtual ${agent_name}_interface vif;
 
 	//TLM 
 	//default seq_item_port
@@ -40,10 +39,9 @@ class ${agent_name}_driver extends uvm_driver ;
 	extern virtual task run_phase(uvm_phase phase);
 	
 	//Task Function Methods
-	extern task handle_reset();
+	extern task handle_reset(uvm_phase phase);
 	extern task drv_transation();
-	
-	{{method}}
+
 	// Add user method here
 	//e.g. task function
 	// User method ends
@@ -60,7 +58,6 @@ endfunction
 function void ${agent_name}_driver::connect_phase(uvm_phase phase);
 	super.connect_phase(phase);
 	`uvm_info(get_name(),"Connect Phase is Called",UVM_LOW)
-	{{connect_phase}}
 	// Add user connect here
 	//e.g. TLM  interface connect
 	// User connect ends
@@ -71,7 +68,7 @@ task ${agent_name}_driver::run_phase(uvm_phase phase);
 	process_run_phase = process::self();
 	`uvm_info(get_name(),"Run Phase is Called",UVM_LOW)
 	fork
-		drv_tranction();
+		drv_transation();
 		// Add user logic here
 
 		// User logic ends

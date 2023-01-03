@@ -18,10 +18,7 @@ class ${agent_name}_agent_cfg extends uvm_object;
 
 	uvm_active_passive_enum is_active=UVM_ACTIVE;
 
-	${agent_name}_interface vif;
-	// Add user cfg here
-	
-	// User cfg ends
+	virtual ${agent_name}_interface vif;
 	`uvm_object_utils_begin(${agent_name}_agent_cfg)
 		`uvm_field_enum(uvm_active_passive_enum,is_active,UVM_ALL_ON)
 		// Add user cfg here

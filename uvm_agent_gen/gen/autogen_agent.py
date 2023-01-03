@@ -11,12 +11,12 @@ from mako.lookup import TemplateLookup
 class autogen_agent(object):
     def __init__(self):
         #self.module_name=''
-        self.agent_name='pwr_ctrl'
+        self.agent_name='pmu'
         self.out_dir=''
         self.time = time.strftime("%Y-%m-%d", time.localtime())
         self.user='beng.jiang'
         self.agent_list={}
-        self.template_dir='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template'
+        self.template_dir='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template'
         # self.agent_list.setdefault('agent_name',None)            #给字典添加键并设置默认值
         # self.agent_list.setdefault('user_name','bengjiang')
         # self.agent_list.setdefault('date','')
@@ -29,8 +29,8 @@ class autogen_agent(object):
     def gen_agent_file(self):
         agent_file = self.agent_name+"_agent\\"
         current_file = os.getcwd()
-        #if not os.path.exists("agent"):
-            #os.mkdir("../agents/"+self.agent_name+"_agent")
+        if not os.path.exists("agent"):
+            os.mkdir("../agents/"+self.agent_name+"_agent")
 
         self.out_dir = current_file+"\..\\agents\\"+agent_file
         print("print out dir:%s" %self.out_dir)
@@ -38,7 +38,7 @@ class autogen_agent(object):
 
     def gen_agent(self):
         file_name = self.agent_name+'_agent.sv'
-        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template')
         print(template_lookup)
         template = Template("""<%include file="agent_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)    #attributes是一个字典用于获取变量
@@ -51,7 +51,7 @@ class autogen_agent(object):
             file.write(cleaned_up_output)
     def gen_agent_item(self):
         file_name = self.agent_name + '_item.sv'
-        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template')
         template = Template("""<%include file="agent_item_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
@@ -65,7 +65,7 @@ class autogen_agent(object):
 
     def gen_agent_cfg(self):
         file_name = self.agent_name + '_cfg.sv'
-        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template')
         template = Template("""<%include file="agent_cfg_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
@@ -78,8 +78,8 @@ class autogen_agent(object):
 
     def gen_sequencer(self):
         file_name = self.agent_name + '_sequencer.sv'
-        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
-        template = Template("""<%include file="agent_cfg_template.mako"/> """, lookup=template_lookup)
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template')
+        template = Template("""<%include file="sequencer_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
         print("out_file_path: %s" % out_file_path)
@@ -92,7 +92,7 @@ class autogen_agent(object):
 
     def gen_driver(self):
         file_name = self.agent_name + '_driver.sv'
-        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template')
         template = Template("""<%include file="driver_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
@@ -105,7 +105,7 @@ class autogen_agent(object):
 
     def gen_monitor(self):
         file_name = self.agent_name + '_monitor.sv'
-        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template')
         template = Template("""<%include file="monitor_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
@@ -118,7 +118,7 @@ class autogen_agent(object):
 
     def gen_interface(self):
         file_name = self.agent_name + '_interface.sv'
-        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template')
         template = Template("""<%include file="interface_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
@@ -131,7 +131,7 @@ class autogen_agent(object):
 
     def gen_agent_pkg(self):
         file_name = self.agent_name + '_pkg.sv'
-        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_agent_gen/template')
+        template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template')
         template = Template("""<%include file="agent_pkg_template.mako"/> """, lookup=template_lookup)
         cleaned_up_output = template.render(attributes=self.agent_list)
         out_file_path = self.out_dir + file_name
