@@ -1,31 +1,32 @@
 
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-//Copyright
-//Author: beng.jiang
-//date: 2022-12-23
-//Contents:pwr_ctrl_interface
+//Copyright Houmo.Ai , All right reserved world wide
+//
+// * Author         : beng.jiang
+// * Create time    : 2023-02-21
+// * FileName       : op_misc_agent_cfg
+// * Description    :
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-`ifndef PWR_CTRL_DRIVER_SV
-`define PWR_CTRL_DRIVER_SV
+`ifndef OP_MISC_DRIVER_SV
+`define OP_MISC_DRIVER_SV
 
-class pwr_ctrl_driver extends uvm_driver ;
+class op_misc_driver extends uvm_driver #(op_misc_item);
 
-	`uvm_component_utils(pwr_ctrl_driver)
+	`uvm_component_utils(op_misc_driver)
 
 	//Config	//Interface
-	pwr_ctrl_driver_cfg drv_cfg;
-	virtual pwr_ctrl_infterface vif;
+	virtual op_misc_interface vif;
 
 	//TLM 
 	//default seq_item_port
 
 	//Transaction Sequence item
-	pwr_ctrl_item  tr;
+	op_misc_item  tr;
 
 	protected process       process_run_phase;
 	
 	//Constructor Function
-	function new(string name="pwr_ctrl_driver",uvm_component parent=null);
+	function new(string name="op_misc_driver",uvm_component parent=null);
 		super.new(name,parent);
 	endfunction
 	
@@ -35,16 +36,15 @@ class pwr_ctrl_driver extends uvm_driver ;
 	extern virtual task run_phase(uvm_phase phase);
 	
 	//Task Function Methods
-	extern task handle_reset();
+	extern task handle_reset(uvm_phase phase);
 	extern task drv_transation();
-	
-	{{method}}
+
 	// Add user method here
 	//e.g. task function
 	// User method ends
 endclass
 
-function void pwr_ctrl_driver::build_phase(uvm_phase phase);
+function void op_misc_driver::build_phase(uvm_phase phase);
 	super.build_phase(phase);
 	`uvm_info(get_name(),"Build Phase is Called",UVM_LOW)
 	// Add user build here
@@ -52,21 +52,20 @@ function void pwr_ctrl_driver::build_phase(uvm_phase phase);
 	// User build ends
 endfunction
 
-function void pwr_ctrl_driver::connect_phase(uvm_phase phase);
+function void op_misc_driver::connect_phase(uvm_phase phase);
 	super.connect_phase(phase);
 	`uvm_info(get_name(),"Connect Phase is Called",UVM_LOW)
-	{{connect_phase}}
 	// Add user connect here
 	//e.g. TLM  interface connect
 	// User connect ends
 endfunction
 
-task pwr_ctrl_driver::run_phase(uvm_phase phase);
+task op_misc_driver::run_phase(uvm_phase phase);
 	super.run_phase(phase);
 	process_run_phase = process::self();
 	`uvm_info(get_name(),"Run Phase is Called",UVM_LOW)
 	fork
-		drv_tranction();
+		drv_transation();
 		// Add user logic here
 
 		// User logic ends
@@ -76,7 +75,7 @@ task pwr_ctrl_driver::run_phase(uvm_phase phase);
 	// User logic ends	
 endtask
 
-task pwr_ctrl_driver::handle_reset(uvm_phase phase);
+task op_misc_driver::handle_reset(uvm_phase phase);
     if(process_run_phase != null)begin
         process_run_phase.kill();
         //sign reset
@@ -92,7 +91,7 @@ task pwr_ctrl_driver::handle_reset(uvm_phase phase);
 	// User logic ends	
 endtask
 
-task pwr_ctrl_driver::drv_transation();
+task op_misc_driver::drv_transation();
 
 	forever begin
 		// Add user logic here

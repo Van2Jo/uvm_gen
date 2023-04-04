@@ -1,38 +1,32 @@
-<%
-inst   = attributes['inst']
-agent_name = attributes['agent_name']
-user = attributes['user_name']
-date = attributes['date']
-agent_upper = attributes['agent_name'].upper()
-%>
+
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-//Copyright ${inst} , All right reserved world wide
+//Copyright Houmo.Ai , All right reserved world wide
 //
-// * Author         : ${user}
-// * Create time    : ${date}
-// * FileName       : ${agent_name}_agent_cfg
+// * Author         : beng.jiang
+// * Create time    : 2023-01-11
+// * FileName       : mem_sys_misc_agent_cfg
 // * Description    :
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-`ifndef ${agent_upper}_AGENT_SV
-`define ${agent_upper}_AGENT_SV
-class ${agent_name}_agent extends uvm_agent;
+`ifndef MEM_SYS_MISC_AGENT_SV
+`define MEM_SYS_MISC_AGENT_SV
+class mem_sys_misc_agent extends uvm_agent;
 
-	`uvm_component_utils(${agent_name}_agent)
+	`uvm_component_utils(mem_sys_misc_agent)
 
 	//Config	//Interface
-	${agent_name}_agent_cfg agt_cfg;
-	virtual ${agent_name}_interface vif;
+	mem_sys_misc_agent_cfg agt_cfg;
+	virtual mem_sys_misc_interface vif;
 	
 	//TLM 
-	uvm_analysis_port#(${agent_name}_item) mon_ap;
+	uvm_analysis_port#(mem_sys_misc_item) mon_ap;
 	
 	//Components
-	${agent_name}_sequencer sqr;
-	${agent_name}_driver drv;
-	${agent_name}_monitor mon;
+	mem_sys_misc_sequencer sqr;
+	mem_sys_misc_driver drv;
+	mem_sys_misc_monitor mon;
 	
 	//Constructor Function
-	function new(string name="${agent_name}_agent",uvm_component parent=null);
+	function new(string name="mem_sys_misc_agent",uvm_component parent=null);
 		super.new(name,parent);
 	endfunction
 	
@@ -46,22 +40,22 @@ class ${agent_name}_agent extends uvm_agent;
 	// User method ends
 endclass
 
-function void ${agent_name}_agent::build_phase(uvm_phase phase);
+function void mem_sys_misc_agent::build_phase(uvm_phase phase);
 	super.build_phase(phase);
 	`uvm_info(get_name(),"Build Phase is Called",UVM_LOW)
-	if(!uvm_config_db#(${agent_name}_agent_cfg)::get(this,"","agt_cfg",agt_cfg))
+	if(!uvm_config_db#(mem_sys_misc_agent_cfg)::get(this,"","agt_cfg",agt_cfg))
 	begin
-		`uvm_fatal(get_name(),"Failed Get ${agent_name} Agent Config")
+		`uvm_fatal(get_name(),"Failed Get mem_sys_misc Agent Config")
 	end
-	if(!uvm_config_db#(virtual ${agent_name}_interface)::get(this,"","${agent_name}_interface",vif))
+	if(!uvm_config_db#(virtual mem_sys_misc_interface)::get(this,"","mem_sys_misc_interface",vif))
 	begin
-		`uvm_fatal(get_name(),"Failed Get Virtual Interfac ${agent_name}_inf")
+		`uvm_fatal(get_name(),"Failed Get Virtual Interfac mem_sys_misc_inf")
 	end
-	mon=${agent_name}_monitor::type_id::create("mon",this);
+	mon=mem_sys_misc_monitor::type_id::create("mon",this);
 	if (agt_cfg.is_active==UVM_ACTIVE)
 	begin
-		sqr=${agent_name}_sequencer::type_id::create("sqr",this);
-		drv=${agent_name}_driver::type_id::create("${agent_name}_drv",this);
+		sqr=mem_sys_misc_sequencer::type_id::create("sqr",this);
+		drv=mem_sys_misc_driver::type_id::create("mem_sys_misc_drv",this);
 	end
 	
 	// Add user build here
@@ -69,7 +63,7 @@ function void ${agent_name}_agent::build_phase(uvm_phase phase);
 	// User build ends
 endfunction
 
-function void ${agent_name}_agent::connect_phase(uvm_phase phase);
+function void mem_sys_misc_agent::connect_phase(uvm_phase phase);
 	super.connect_phase(phase);
 	`uvm_info(get_name(),"Connect Phase is Called",UVM_LOW)
 	mon.vif=vif;
@@ -84,7 +78,7 @@ function void ${agent_name}_agent::connect_phase(uvm_phase phase);
 	// User connect ends
 endfunction
 
-task ${agent_name}_agent::run_phase(uvm_phase phase);
+task mem_sys_misc_agent::run_phase(uvm_phase phase);
 	super.run_phase(phase);
 	`uvm_info(get_name(),"Run Phase is Called",UVM_LOW)
 
@@ -110,4 +104,4 @@ endtask
 
 	
 	
-	
+	 

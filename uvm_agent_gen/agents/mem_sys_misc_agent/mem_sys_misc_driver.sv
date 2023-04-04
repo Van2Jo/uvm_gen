@@ -1,38 +1,32 @@
-<%
-inst   = attributes['inst']
-agent_name = attributes['agent_name']
-user = attributes['user_name']
-date = attributes['date']
-agent_upper = attributes['agent_name'].upper()
-%>
+
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-//Copyright ${inst} , All right reserved world wide
+//Copyright Houmo.Ai , All right reserved world wide
 //
-// * Author         : ${user}
-// * Create time    : ${date}
-// * FileName       : ${agent_name}_agent_cfg
+// * Author         : beng.jiang
+// * Create time    : 2023-01-11
+// * FileName       : mem_sys_misc_agent_cfg
 // * Description    :
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-`ifndef ${agent_upper}_DRIVER_SV
-`define ${agent_upper}_DRIVER_SV
+`ifndef MEM_SYS_MISC_DRIVER_SV
+`define MEM_SYS_MISC_DRIVER_SV
 
-class ${agent_name}_driver extends uvm_driver #(${agent_name}_item);
+class mem_sys_misc_driver extends uvm_driver #(mem_sys_misc_item);
 
-	`uvm_component_utils(${agent_name}_driver)
+	`uvm_component_utils(mem_sys_misc_driver)
 
 	//Config	//Interface
-	virtual ${agent_name}_interface vif;
+	virtual mem_sys_misc_interface vif;
 
 	//TLM 
 	//default seq_item_port
 
 	//Transaction Sequence item
-	${agent_name}_item  tr;
+	mem_sys_misc_item  tr;
 
 	protected process       process_run_phase;
 	
 	//Constructor Function
-	function new(string name="${agent_name}_driver",uvm_component parent=null);
+	function new(string name="mem_sys_misc_driver",uvm_component parent=null);
 		super.new(name,parent);
 	endfunction
 	
@@ -50,7 +44,7 @@ class ${agent_name}_driver extends uvm_driver #(${agent_name}_item);
 	// User method ends
 endclass
 
-function void ${agent_name}_driver::build_phase(uvm_phase phase);
+function void mem_sys_misc_driver::build_phase(uvm_phase phase);
 	super.build_phase(phase);
 	`uvm_info(get_name(),"Build Phase is Called",UVM_LOW)
 	// Add user build here
@@ -58,7 +52,7 @@ function void ${agent_name}_driver::build_phase(uvm_phase phase);
 	// User build ends
 endfunction
 
-function void ${agent_name}_driver::connect_phase(uvm_phase phase);
+function void mem_sys_misc_driver::connect_phase(uvm_phase phase);
 	super.connect_phase(phase);
 	`uvm_info(get_name(),"Connect Phase is Called",UVM_LOW)
 	// Add user connect here
@@ -66,7 +60,7 @@ function void ${agent_name}_driver::connect_phase(uvm_phase phase);
 	// User connect ends
 endfunction
 
-task ${agent_name}_driver::run_phase(uvm_phase phase);
+task mem_sys_misc_driver::run_phase(uvm_phase phase);
 	super.run_phase(phase);
 	process_run_phase = process::self();
 	`uvm_info(get_name(),"Run Phase is Called",UVM_LOW)
@@ -81,7 +75,7 @@ task ${agent_name}_driver::run_phase(uvm_phase phase);
 	// User logic ends	
 endtask
 
-task ${agent_name}_driver::handle_reset(uvm_phase phase);
+task mem_sys_misc_driver::handle_reset(uvm_phase phase);
     if(process_run_phase != null)begin
         process_run_phase.kill();
         //sign reset
@@ -97,7 +91,7 @@ task ${agent_name}_driver::handle_reset(uvm_phase phase);
 	// User logic ends	
 endtask
 
-task ${agent_name}_driver::drv_transation();
+task mem_sys_misc_driver::drv_transation();
 
 	forever begin
 		// Add user logic here
@@ -107,8 +101,8 @@ task ${agent_name}_driver::drv_transation();
 		// Add user logic here
 		//e.g. drive interface
 		// User logic ends
-		seq_item_port.item_done();
 	end
 endtask
 
 `endif
+ 

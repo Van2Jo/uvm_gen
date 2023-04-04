@@ -1,33 +1,27 @@
-<%
-inst   = attributes['inst']
-agent_name = attributes['agent_name']
-user = attributes['user_name']
-date = attributes['date']
-agent_upper = attributes['agent_name'].upper()
-%>
+
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-//Copyright ${inst} , All right reserved world wide
+//Copyright Houmo.Ai , All right reserved world wide
 //
-// * Author         : ${user}
-// * Create time    : ${date}
-// * FileName       : ${agent_name}_agent_cfg
+// * Author         : beng.jiang
+// * Create time    : 2023-01-11
+// * FileName       : mem_sys_misc_agent_cfg
 // * Description    :
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-`ifndef ${agent_upper}_MONITOR_SV
-`define ${agent_upper}_MONITOR_SV
+`ifndef MEM_SYS_MISC_MONITOR_SV
+`define MEM_SYS_MISC_MONITOR_SV
 
-class ${agent_name}_monitor extends uvm_monitor ;
+class mem_sys_misc_monitor extends uvm_monitor ;
 
-	`uvm_component_utils(${agent_name}_monitor)
+	`uvm_component_utils(mem_sys_misc_monitor)
 
 	//Config	//Interface
-	virtual ${agent_name}_interface vif;
+	virtual mem_sys_misc_interface vif;
 	
 	//TLM 
-	uvm_analysis_port#(${agent_name}_item) mon_ap;
+	uvm_analysis_port#(mem_sys_misc_item) mon_ap;
 	
 	//Constructor Function
-	function new(string name="${agent_name}_monitor",uvm_component parent=null);
+	function new(string name="mem_sys_misc_monitor",uvm_component parent=null);
 		super.new(name,parent);
 	endfunction
 	
@@ -44,7 +38,7 @@ class ${agent_name}_monitor extends uvm_monitor ;
 	// User method ends
 endclass
 
-function void ${agent_name}_monitor::build_phase(uvm_phase phase);
+function void mem_sys_misc_monitor::build_phase(uvm_phase phase);
 	super.build_phase(phase);
 	`uvm_info(get_name(),"Build Phase is Called",UVM_LOW)
 	mon_ap=new("mon_ap",this);
@@ -53,7 +47,7 @@ function void ${agent_name}_monitor::build_phase(uvm_phase phase);
 	// User build ends
 endfunction
 
-function void ${agent_name}_monitor::connect_phase(uvm_phase phase);
+function void mem_sys_misc_monitor::connect_phase(uvm_phase phase);
 	super.connect_phase(phase);
 	`uvm_info(get_name(),"Connect Phase is Called",UVM_LOW)
 
@@ -62,7 +56,7 @@ function void ${agent_name}_monitor::connect_phase(uvm_phase phase);
 	// User connect ends
 endfunction
 
-task ${agent_name}_monitor::run_phase(uvm_phase phase);
+task mem_sys_misc_monitor::run_phase(uvm_phase phase);
 	super.run_phase(phase);
 	`uvm_info(get_name(),"Run Phase is Called",UVM_LOW)
 	fork
@@ -78,12 +72,12 @@ task ${agent_name}_monitor::run_phase(uvm_phase phase);
 
 endtask
 
-task ${agent_name}_monitor::monitor_transation();
+task mem_sys_misc_monitor::monitor_transation();
 
 	forever
 	begin
-	    ${agent_name}_item tr;
-		tr=${agent_name}_item::type_id::create("tr",this);
+	    mem_sys_misc_item tr;
+		tr=mem_sys_misc_item::type_id::create("tr",this);
 		// Add user logic here
 		#1;
 		// User logic ends
@@ -91,4 +85,4 @@ task ${agent_name}_monitor::monitor_transation();
 	end
 endtask
 
-`endif
+`endif 

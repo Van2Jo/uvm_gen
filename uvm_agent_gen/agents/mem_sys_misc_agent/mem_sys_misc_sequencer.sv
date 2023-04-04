@@ -1,28 +1,22 @@
-<%
-inst   = attributes['inst']
-agent_name = attributes['agent_name']
-user = attributes['user_name']
-date = attributes['date']
-agent_upper = attributes['agent_name'].upper()
-%>
+
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-//Copyright ${inst} , All right reserved world wide
+//Copyright Houmo.Ai , All right reserved world wide
 //
-// * Author         : ${user}
-// * Create time    : ${date}
-// * FileName       : ${agent_name}_sequencer
+// * Author         : beng.jiang
+// * Create time    : 2023-01-11
+// * FileName       : mem_sys_misc_agent_cfg
 // * Description    :
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-`ifndef ${agent_upper}_SEQUENCER_SV
-`define ${agent_upper}_SEQUENCER_SV
-class ${agent_name}_sequencer extends uvm_sequencer #(${agent_name}_item);
+`ifndef MEM_SYS_MISC_SEQUENCER_SV
+`define MEM_SYS_MISC_SEQUENCER_SV
+class mem_sys_misc_sequencer extends uvm_sequencer #(mem_sys_misc_item);
 
-	`uvm_component_utils(${agent_name}_sequencer)
+	`uvm_component_utils(mem_sys_misc_sequencer)
 	//TLM 
 	//default seq_item_port
 
 	//Constructor Function
-	function new(string name="${agent_name}_sequencer",uvm_component parent=null);
+	function new(string name="mem_sys_misc_sequencer",uvm_component parent=null);
 		super.new(name,parent);
 	endfunction
 
@@ -44,4 +38,4 @@ class ${agent_name}_sequencer extends uvm_sequencer #(${agent_name}_item);
 	// User method ends
 endclass
 
-`endif
+`endif 

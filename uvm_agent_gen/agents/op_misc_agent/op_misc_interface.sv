@@ -1,12 +1,14 @@
 
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
-//Copyright
-//Author: beng.jiang
-//date: 2022-12-23
-//Contents:pwr_ctrl_interface
+//Copyright Houmo.Ai , All right reserved world wide
+//
+// * Author         : beng.jiang
+// * Create time    : 2023-02-21
+// * FileName       : op_misc_agent_cfg
+// * Description    :
 //***** ***** ***** *****  *****  *****  *****  *****  *****  *****  *****
 
-interface pwr_ctrl_interface (input logic clk, input logic rst_n);
+interface op_misc_interface (input logic clk, input logic rst_n);
 
 
     clocking drv_cb @(posedge clk);
