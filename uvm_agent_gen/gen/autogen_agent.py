@@ -45,16 +45,6 @@ class InterfaceClass(BaseUvmGen):
         """Add an interface port definition"""
         self.ports.append(PortClass(name,width,portdir))
 
-
-class ItemClass(BaseUvmGen):
-    def __init__(self):
-        super(ItemClass,self).__init__(name,'item')
-        self.ItemVars = []
-
-    def
-
-
-
 class autogen_agent(object):
     def __init__(self):
         #self.module_name=''
@@ -178,6 +168,7 @@ class autogen_agent(object):
         with file:  # with的话无论file有没有写成功都会close file，可以自动释放资源
             file.write(cleaned_up_output)
 
+
     def gen_agent_pkg(self):
         file_name = self.agent_name + 'agent_pkg.sv'
         template_lookup = TemplateLookup(directories='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template')
@@ -191,22 +182,53 @@ class autogen_agent(object):
         with file:  # with的话无论file有没有写成功都会close file，可以自动释放资源
             file.write(cleaned_up_output)
 
+    def create(self,type,name,template,template_dir):
+        file_name = name + '_'+type+'.svh'
+        #template_lookup = TemplateLookup(directories=template_dir)
+        #template = Template("""<%include file="sequencer_template.mako"/> """, lookup=template_lookup)
+        cleaned_up_output = template.render(attributes=self.agent_list)
+        out_file_path = self.out_dir + file_name
+        print("out_file_path: %s" % out_file_path)
+        try:
+            file = open(out_file_path, 'w+', newline='')
+        except:
+            print('Could not open file')
+        with file:  # with的话无论file有没有写成功都会close file，可以自动释放资源
+            file.write(cleaned_up_output)
 
-
-    def run_flow(self):
+    def run_template(self):
         self.parser_agent_para()
-        self.gen_agent_file()
-        self.gen_sequencer()
-        self.gen_interface()
-        self.gen_agent_cfg()
-        self.gen_driver()
-        self.gen_monitor()
-        self.gen_agent_pkg()
-        self.gen_agent_item()
-        self.gen_agent()
+        template_dir='F:/效率/script/uvmgen/uvm_gen_auto_beng/uvm_gen/uvm_agent_gen/template'
+        template_lookup = TemplateLookup(directories=template_dir)
+        template_files = []
+        for root, dirs, files in os.walk(template_dir):
+            print(dirs)
+            for filename in files:
+                if filename.endswith('.mako'):
+                    print(filename)
+                    type_name = text.split("_template ")
+                    template = template_lookup.get_template(filename)
+                    cleaned_up_output = template.render(attributes=self.agent_list)
+                    if('pkg' not in filename):
+                        out_file_path = self.out_dir + self.agent_list['agent_name']  +type_name +"svh"
+                    else:
+                        out_file_path = self.out_dir + self.agent_list['agent_name'] + type_name + "sv"
+                    print("out_file_path: %s" % out_file_path)
+                    try:
+                        file = open(out_file_path, 'w+', newline='')
+                    except:
+                        print('Could not open file')
+                    with file:  # with的话无论file有没有写成功都会close file，可以自动释放资源
+                        file.write(cleaned_up_output)
+                    #template_files.append(os.path.join(root, filename))
+
+        # for template_name in template_lookup.template_collection.sorted():
+        #     template = mylookup.get_template(template_name)
+        #     print(template.filename)
+
 
 if __name__ == '__main__':
     agent =autogen_agent()
-    agent.run_flow()
+    agent.run_template()
 
 
